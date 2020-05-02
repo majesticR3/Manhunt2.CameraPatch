@@ -43,6 +43,7 @@ CVector* __fastcall GetGlobalCameraPosFromPlayer(void* This, void* edx, CVector*
 
 	float* PlrCurrYAngle		= (float*)((char*)This + 4400);
 	bool*  PlrActionLookBack	= (bool*)((char*)This + 1232);
+	bool*  PlrActionLockOn		= (bool*)((char*)This + 1352);
 	int*   PlrCurrState			= (int*)((char*)This + 956);
 	int*   PlrCurrWpnType		= (int*)((char*)This + 968);
 	int*   PlrLockOnHunter		= (int*)((char*)This + 4500);
@@ -90,9 +91,9 @@ CVector* __fastcall GetGlobalCameraPosFromPlayer(void* This, void* edx, CVector*
 		else
 			CamPosOffsetFromPlayer = *CurrentCamOffsetFromPlayer;
 
-	if ((*PlrCurrState == PEDSTATE_AIM && *PlrCurrWpnType == WEAPONTYPE_LURE) || *(bool*)0x75B348 || *PlrCurrState == PEDSTATE_CRAWL || *PlrCurrState == PEDSTATE_CLIMB || *PlrLockOnHunter || *(bool*)0x76F860)
+	if ((*PlrCurrState == PEDSTATE_AIM && *PlrCurrWpnType == WEAPONTYPE_LURE) || *(bool*)0x75B348 || *PlrCurrState == PEDSTATE_CRAWL || *PlrCurrState == PEDSTATE_CLIMB || (*PlrLockOnHunter && *PlrActionLockOn) || *(bool*)0x76F860)
 	{
-		if (CamInSyncWithPlrYAngle || *PlrCurrState == PEDSTATE_CLIMB || *PlrCurrState == PEDSTATE_CRAWL || *PlrLockOnHunter || *(bool*)0x76F860)
+		if (CamInSyncWithPlrYAngle || *PlrCurrState == PEDSTATE_CLIMB || *PlrCurrState == PEDSTATE_CRAWL || (*PlrLockOnHunter && *PlrActionLockOn) || *(bool*)0x76F860)
 		{
 			CamCurrYAngle = *PlrCurrYAngle;
 			AxisYAngle = CamCurrYAngle;
